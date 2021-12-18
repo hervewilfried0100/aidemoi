@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Ville {
+  id           String        @id @default(cuid())
+  label        String
+  communes     Commune[]
+  prestataires Prestataire[]
+}
+
+model Commune {
+  id           String        @id @default(cuid())
+  label        String
+  prestataires Prestataire[]
+  ville        Ville?        @relation(fields: [villeId], references: [id])
+  villeId      String?
+  quartiers    Quartier[]
+}
+
+model Quartier {
+  id          String        @id @default(cuid())
+  label       String
+  commune     Commune?      @relation(fields: [communeId], references: [id])
+  communeId   String?
+  prestataire Prestataire[]
+}
+
+model Prestation {
+  id           String        @id @default(cuid())
+  label        String
+  prestataires Prestataire[]
+}
+
+model Prestataire {
+  id           String      @id @default(cuid())
+  nom          String
+  prenoms      String
+  genre        Genre       @default(MASCULIN)
+  telephone    String      @unique
+  ville        Ville?      @relation(fields: [villeId], references: [id])
+  villeId      String?
+  commune      Commune?    @relation(fields: [communeId], references: [id])
+  communeId    String?
+  quartier     Quartier    @relation(fields: [quartierId], references: [id])
+  quartierId   String
+  adresse      String?
+  aPayer       Boolean?    @default(false)
+  prestation   Prestation? @relation(fields: [prestationId], references: [id])
+  prestationId String?
+  dateCreation DateTime    @default(now())
+  utilisateur  User?
+}
+
+model User {
+  id            String       @id @default(cuid())
+  telephone     String       @unique
+  motdepasse    String
+  prestataire   Prestataire? @relation(fields: [prestataireId], references: [id])
+  prestataireId String?      @unique
+}
+
+enum Genre {
+  MASCULIN
+  FEMININ
+}
