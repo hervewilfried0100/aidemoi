@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreatePrestataireDto } from './dto/create-prestataire.dto';
 import { UpdatePrestataireDto } from './dto/update-prestataire.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { PrestataireDetailsVM } from './vm/prestataire-vm';
 
 @Injectable()
 export class PrestataireService {
@@ -53,10 +54,11 @@ export class PrestataireService {
   findAll() {
     try {
       return this.prisma.prestataire.findMany({
-        include: {
+        select: {
           ville: true,
           commune: true,
-          prestation: true
+          prestation: true,
+          quartier: true
         }
       });
     } catch (e) {
@@ -71,23 +73,45 @@ export class PrestataireService {
         include: {
           ville: true,
           commune: true,
-          prestation: true
+          prestation: true,
+          quartier: true
         }
       });
     }catch (e) {
       throw new HttpException('LOAD_DATA_ERROR', HttpStatus.FORBIDDEN);
     }
-
   }
 
-  findByPrestation(id: string) {
-    return this.prisma.prestataire.findMany({
+  async findByPrestation(id: string) {
+    const prestataires = await this.prisma.prestataire.findMany({
       where: {
         prestation: {
           id: id
-        }
+        },
+      },
+      include: {
+        ville: true,
+        commune: true,
+        prestation: true,
+        quartier: true
       }
-    })
+    });
+
+    const cleanPrestataire = prestataires.map((prestataire) => new PrestataireDetailsVM({
+      id: prestataire.id,
+      nom: prestataire.nom,
+      prenoms: prestataire.prenoms,
+      genre: prestataire.genre,
+      telephone: prestataire.genre,
+      ville: prestataire.ville.label,
+      commune: prestataire.commune.label,
+      quartier: prestataire.quartier.label,
+      adresse: prestataire.adresse,
+      aPayer: prestataire.aPayer,
+      prestation: prestataire.prestation.label,
+      dateCreation: prestataire.dateCreation
+    }));
+    return cleanPrestataire;
   }
 
   effectuerPaiement(id: string){
