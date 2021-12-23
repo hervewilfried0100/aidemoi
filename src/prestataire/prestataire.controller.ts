@@ -1,8 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
 import { PrestataireService } from './prestataire.service';
 import { CreatePrestataireDto } from './dto/create-prestataire.dto';
 import { UpdatePrestataireDto } from './dto/update-prestataire.dto';
-import { Response } from 'express';
 
 @Controller('api/v1/prestataire')
 export class PrestataireController {
@@ -24,12 +23,8 @@ export class PrestataireController {
   }
 
   @Get('get-prestations/:id')
-  async findPrestataire(@Res() res: Response, @Param('id') id: string) {
-    const prestataires = await this.prestataireService.findByPrestation(id);
-    res.status(HttpStatus.CREATED).json({
-      status: 'success',
-      data: prestataires
-    });
+  findPrestataire(@Param('id') id: string) {
+    return this.prestataireService.findByPrestation(id);
   }
 
 
