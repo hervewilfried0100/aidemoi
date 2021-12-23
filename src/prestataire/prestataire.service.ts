@@ -111,6 +111,7 @@ export class PrestataireService {
       prestation: prestataire.prestation.label,
       dateCreation: prestataire.dateCreation
     }));
+    console.log("Prestataire", cleanPrestataire);
     return cleanPrestataire;
   }
 
