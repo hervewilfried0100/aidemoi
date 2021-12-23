@@ -162,6 +162,10 @@ export class PrestataireService {
   }
 
   remove(id: string) {
-    return this.prisma.prestataire.delete({ where: { id: id} });
+    try {
+      return this.prisma.prestataire.delete({ where: { id: id} });
+    } catch(e) {
+      throw new HttpException('DELETE_ERROR', HttpStatus.FORBIDDEN);
+    }
   }
 }
