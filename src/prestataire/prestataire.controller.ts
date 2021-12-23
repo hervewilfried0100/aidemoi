@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Put, Res, HttpStatus
 import { PrestataireService } from './prestataire.service';
 import { CreatePrestataireDto } from './dto/create-prestataire.dto';
 import { UpdatePrestataireDto } from './dto/update-prestataire.dto';
+import { Response } from 'express';
 
 @Controller('api/v1/prestataire')
 export class PrestataireController {
