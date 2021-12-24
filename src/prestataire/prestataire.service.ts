@@ -102,7 +102,7 @@ export class PrestataireService {
       nom: prestataire.nom,
       prenoms: prestataire.prenoms,
       genre: prestataire.genre,
-      telephone: prestataire.genre,
+      telephone: prestataire.telephone,
       ville: prestataire.ville.label,
       commune: prestataire.commune.label,
       quartier: prestataire.quartier.label,
