@@ -43,8 +43,8 @@ export class CreatePrestataireDto {
   @ApiProperty()
   prestation: string;
 
-  @ApiProperty()
-  utilisateur: string;
+  // @ApiProperty()
+  // utilisateur: string;
 
   @ApiProperty()
   dateCreation?: Date;

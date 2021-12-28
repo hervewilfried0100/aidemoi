@@ -42,25 +42,41 @@ export class PrestataireService {
                   id: createPrestataireDto.prestation
                 }
               },
-              utilisateur: {
-                connect: {
-                  id: createPrestataireDto.utilisateur
-                }
-              }
+              // utilisateur: {
+              //   connect: {
+              //     id: createPrestataireDto.utilisateur
+              //   }
+              // }
             }
     });
   }
 
-  findAll() {
+  async findAll() {
     try {
-      return this.prisma.prestataire.findMany({
-        select: {
+      const prestataires = await this.prisma.prestataire.findMany({
+        include: {
           ville: true,
           commune: true,
           prestation: true,
           quartier: true
         }
       });
+
+      const cleanPrestataire = prestataires.map((prestataire) => new PrestataireDetailsVM({
+        id: prestataire.id,
+        nom: prestataire.nom,
+        prenoms: prestataire.prenoms,
+        genre: prestataire.genre,
+        telephone: prestataire.telephone,
+        ville: prestataire.ville.label,
+        commune: prestataire.commune.label,
+        quartier: prestataire.quartier.label,
+        adresse: prestataire.adresse,
+        aPayer: prestataire.aPayer,
+        prestation: prestataire.prestation.label,
+        dateCreation: prestataire.dateCreation
+      }));
+      return cleanPrestataire;
     } catch (e) {
       throw new HttpException('LOAD_DATA_ERROR', HttpStatus.FORBIDDEN);
     }
@@ -152,11 +168,11 @@ export class PrestataireService {
             id: updatePrestataireDto.prestation
           }
         },
-        utilisateur: {
-          connect: {
-            id: updatePrestataireDto.utilisateur
-          }
-    }
+        // utilisateur: {
+        //   connect: {
+        //     id: updatePrestataireDto.utilisateur
+        //   }
+        // }
       }
     });
   }
