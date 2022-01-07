@@ -40,7 +40,7 @@ export class CommuneService {
   async recupererCommuneParVille(id: string){
     try{
       const communes = await this.prisma.commune.findMany({
-        where: { id: id }
+        where: { villeId: id }
       });
       const communeEssentiel = communes.map((commune) => new CommuneEssentielVM({
         id: commune.id,

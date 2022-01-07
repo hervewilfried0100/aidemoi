@@ -41,7 +41,7 @@ export class QuartierService {
 
     try {
       const quartiers = await this.prismaService.quartier.findMany({
-        where: { id: id }
+        where: { communeId: id }
       });
 
     const quartierEssentiel = quartiers.map((quartier) => new QuartierEssentielVM({
