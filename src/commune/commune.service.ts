@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateCommuneDto } from './dto/create-commune.dto';
 import { UpdateCommuneDto } from './dto/update-commune.dto';
+import { CommuneEssentielVM } from './vm/commune-vm';
 
 @Injectable()
 export class CommuneService {
@@ -34,6 +35,21 @@ export class CommuneService {
         prestataires: true
       }
     });
+  }
+
+  async recupererCommuneParVille(id: string){
+    try{
+      const communes = await this.prisma.commune.findMany({
+        where: { id: id }
+      });
+      const communeEssentiel = communes.map((commune) => new CommuneEssentielVM({
+        id: commune.id,
+        label: commune.label
+      }));
+      return communeEssentiel;
+    } catch(e) {
+      throw new HttpException('LOADED_FAILED', HttpStatus.FORBIDDEN);
+    }
   }
 
   findOne(id: string) {

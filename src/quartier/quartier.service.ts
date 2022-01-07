@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateQuartierDto } from './dto/create-quartier.dto';
 import { UpdateQuartierDto } from './dto/update-quartier.dto';
+import { QuartierEssentielVM } from './vm/quartier-vm';
 
 @Injectable()
 export class QuartierService {
@@ -34,6 +35,25 @@ export class QuartierService {
         commune: true
       }
     });
+  }
+
+  async findQuartierParCommune(id: string) {
+
+    try {
+      const quartiers = await this.prismaService.quartier.findMany({
+        where: { id: id }
+      });
+
+    const quartierEssentiel = quartiers.map((quartier) => new QuartierEssentielVM({
+      id: quartier.id,
+      label: quartier.label
+    }));
+
+    return quartierEssentiel;
+    } catch (e) {
+      throw new HttpException('LOADED_FAILED', HttpStatus.FORBIDDEN);
+    }
+
   }
 
   update(id: string, updateQuartierDto: UpdateQuartierDto) {

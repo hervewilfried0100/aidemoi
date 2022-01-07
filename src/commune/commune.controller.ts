@@ -36,6 +36,11 @@ export class CommuneController {
     return this.communeService.findOne(id);
   }
 
+  @Get('search-ville/:id')
+  recupererCommuneParVille(@Param('id') id: string) {
+    return this.communeService.recupererCommuneParVille(id);
+  }
+
   @ApiCreatedResponse({ type: CommuneEntity })
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCommuneDto: UpdateCommuneDto) {

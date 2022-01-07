@@ -22,6 +22,11 @@ export class QuartierController {
     return this.quartierService.findOne(id);
   }
 
+  @Get('search-commune/:id')
+  recupererQuartierParCommune(@Param('id') id: string) {
+    return this.quartierService.findQuartierParCommune(id);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateQuartierDto: UpdateQuartierDto) {
     return this.quartierService.update(id, updateQuartierDto);
