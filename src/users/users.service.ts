@@ -39,7 +39,12 @@ export class UsersService {
       return await this.prisma.user.create({
         data: {
           telephone: createUserDto?.telephone,
-          motdepasse: hashedPassword
+          motdepasse: hashedPassword,
+          prestataire: {
+            connect: {
+              id: createUserDto.prestataire
+            }
+          }
         },
         select: {
           motdepasse: false,
