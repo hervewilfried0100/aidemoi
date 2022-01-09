@@ -19,7 +19,7 @@ export class PrestataireService {
     if (telephoneExist) {
       throw new HttpException('USER_EXIST', HttpStatus.FORBIDDEN)
     }
-    return this.prisma.prestataire.create({
+    const prestataire = await this.prisma.prestataire.create({
             data: {
               ...createPrestataireDto,
               ville: {
@@ -49,6 +49,8 @@ export class PrestataireService {
               // }
             }
     });
+
+    return { prestataireId: prestataire.id };
   }
 
   async findAll() {
