@@ -50,7 +50,7 @@ export class PrestataireService {
             }
     });
 
-    return { prestataireId: prestataire.id };
+    return { prestataireId: prestataire.id, telephone: prestataire.telephone };
   }
 
   async findAll() {
