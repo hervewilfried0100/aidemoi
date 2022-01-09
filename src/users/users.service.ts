@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dto/login-user.dto';
+import { PrestataireDetailsVM } from 'src/prestataire/vm/prestataire-vm';
 
 @Injectable()
 export class UsersService {
@@ -59,7 +60,19 @@ export class UsersService {
   }
 
   public async login(loginDto: LoginUserDto){
-    const userLogin = await this.prisma.user.findUnique({ where: { telephone: loginDto.telephone } });
+    const userLogin = await this.prisma.user.findUnique({
+      where: { telephone: loginDto.telephone },
+      include: {
+        prestataire: {
+          include: {
+            ville: true,
+            commune: true,
+            quartier: true,
+            prestation: true
+          }
+        }
+      }
+    });
     if (!userLogin) {
       throw new HttpException('LOGIN_INCORRECT', HttpStatus.UNAUTHORIZED);
     }
@@ -70,7 +83,22 @@ export class UsersService {
     }
     // Suppression du mot de passe dans la reponse de connexion
     userLogin.motdepasse = undefined;
-    return userLogin;
+    
+    const prestataire = new PrestataireDetailsVM({
+      id: userLogin.prestataire.id,
+      nom: userLogin.prestataire.nom,
+      prenoms: userLogin.prestataire.prenoms,
+      genre: userLogin.prestataire.genre,
+      telephone: userLogin.prestataire.telephone,
+      adresse: userLogin.prestataire.adresse,
+      aPayer: userLogin.prestataire.aPayer,
+      ville: userLogin.prestataire.ville.label,
+      commune: userLogin.prestataire.commune.label,
+      quartier: userLogin.prestataire.quartier.label,
+      prestation: userLogin.prestataire.prestation.label,
+      dateCreation: userLogin.prestataire.dateCreation
+    });
+    return prestataire;
   }
 
   findAll() {
