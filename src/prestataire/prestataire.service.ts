@@ -84,6 +84,120 @@ export class PrestataireService {
     }
   }
 
+  async filtrePrestataireParVille(prestationId: string, villeId: string) {
+    try {
+      const prestataires = await this.prisma.prestataire.findMany({
+        where: {
+          prestation: {
+            id: prestationId
+          },
+          ville: {
+            id: villeId
+          }
+        },
+        include: {
+          ville: true,
+          commune: true,
+          prestation: true,
+          quartier: true
+        }
+      });
+      const cleanPrestataire = prestataires.map((prestataire) => new PrestataireDetailsVM({
+        id: prestataire.id,
+        nom: prestataire.nom,
+        prenoms: prestataire.prenoms,
+        genre: prestataire.genre,
+        telephone: prestataire.telephone,
+        ville: prestataire.ville.label,
+        commune: prestataire.commune.label,
+        quartier: prestataire.quartier.label,
+        adresse: prestataire.adresse,
+        aPayer: prestataire.aPayer,
+        prestation: prestataire.prestation.label,
+        dateCreation: prestataire.dateCreation
+      }));
+      return cleanPrestataire;
+    } catch(e) {
+      throw new HttpException('LOAD_DATA_ERROR', HttpStatus.FORBIDDEN);
+    }
+  }
+
+  async filtrePrestataireParCommune(prestationId: string, communeId: string) {
+    try {
+      const prestataires = await this.prisma.prestataire.findMany({
+        where: {
+          prestation: {
+            id: prestationId
+          },
+          commune: {
+            id: communeId
+          }
+        },
+        include: {
+          ville: true,
+          commune: true,
+          prestation: true,
+          quartier: true
+        }
+      });
+      const cleanPrestataire = prestataires.map((prestataire) => new PrestataireDetailsVM({
+        id: prestataire.id,
+        nom: prestataire.nom,
+        prenoms: prestataire.prenoms,
+        genre: prestataire.genre,
+        telephone: prestataire.telephone,
+        ville: prestataire.ville.label,
+        commune: prestataire.commune.label,
+        quartier: prestataire.quartier.label,
+        adresse: prestataire.adresse,
+        aPayer: prestataire.aPayer,
+        prestation: prestataire.prestation.label,
+        dateCreation: prestataire.dateCreation
+      }));
+      return cleanPrestataire;
+    } catch(e) {
+      throw new HttpException('LOAD_DATA_ERROR', HttpStatus.FORBIDDEN);
+    }
+  }
+
+  async filtrePrestataireParQuartier(prestationId: string, quartierId: string) {
+    try {
+      const prestataires = await this.prisma.prestataire.findMany({
+        where: {
+          prestation: {
+            id: prestationId
+          },
+          quartier: {
+            id: quartierId
+          }
+        },
+        include: {
+          ville: true,
+          commune: true,
+          prestation: true,
+          quartier: true
+        }
+      });
+      const cleanPrestataire = prestataires.map((prestataire) => new PrestataireDetailsVM({
+        id: prestataire.id,
+        nom: prestataire.nom,
+        prenoms: prestataire.prenoms,
+        genre: prestataire.genre,
+        telephone: prestataire.telephone,
+        ville: prestataire.ville.label,
+        commune: prestataire.commune.label,
+        quartier: prestataire.quartier.label,
+        adresse: prestataire.adresse,
+        aPayer: prestataire.aPayer,
+        prestation: prestataire.prestation.label,
+        dateCreation: prestataire.dateCreation
+      }));
+      return cleanPrestataire;
+    } catch(e) {
+      throw new HttpException('LOAD_DATA_ERROR', HttpStatus.FORBIDDEN);
+    }
+  }
+
   findOne(id: string) {
     try {
       return this.prisma.prestataire.findUnique({

@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put, Query } from '@nestjs/common';
 import { PrestataireService } from './prestataire.service';
 import { CreatePrestataireDto } from './dto/create-prestataire.dto';
 import { UpdatePrestataireDto } from './dto/update-prestataire.dto';
+import { PrestataireQuery } from './prestation-query';
 
 @Controller('api/v1/prestataire')
 export class PrestataireController {
@@ -22,11 +23,28 @@ export class PrestataireController {
     return this.prestataireService.findOne(id);
   }
 
-  @Get('get-prestations/:id')
-  findPrestataire(@Param('id') id: string) {
-    return this.prestataireService.findByPrestation(id);
+  // @Get('get-prestations/:id')
+  // findPrestataireParVille(@Param('id') id: string) {
+  //   return this.prestataireService.findByPrestation(id);
+  // }
+
+  @Get('query-ville/:id')
+  findPrestataireParVille(@Query() query: PrestataireQuery, @Param('id') id: string) {
+    const villeId = query.villeId;
+    return this.prestataireService.filtrePrestataireParVille(id, villeId);
   }
 
+  @Get('query-commune/:id')
+  findPrestataireParCommune(@Query() query: PrestataireQuery, @Param('id') id: string) {
+    const communeId = query.communeId;
+    return this.prestataireService.filtrePrestataireParCommune(id, communeId);
+  }
+
+  @Get('query-quartier/:id')
+  findPrestataireParQuartier(@Query() query: PrestataireQuery, @Param('id') id: string) {
+    const quartierId = query.quartierId;
+    return this.prestataireService.filtrePrestataireParQuartier(id, quartierId);
+  }
 
   @Put('pay/:id')
   makePay(@Param('id') id: string) {

@@ -83,7 +83,7 @@ export class UsersService {
     }
     // Suppression du mot de passe dans la reponse de connexion
     userLogin.motdepasse = undefined;
-    
+
     const prestataire = new PrestataireDetailsVM({
       id: userLogin.prestataire.id,
       nom: userLogin.prestataire.nom,
