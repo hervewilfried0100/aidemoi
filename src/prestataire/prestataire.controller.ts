@@ -23,10 +23,10 @@ export class PrestataireController {
     return this.prestataireService.findOne(id);
   }
 
-  // @Get('get-prestations/:id')
-  // findPrestataireParVille(@Param('id') id: string) {
-  //   return this.prestataireService.findByPrestation(id);
-  // }
+  @Get('get-prestations/:id')
+  findPrestataireParPrestation(@Param('id') id: string) {
+    return this.prestataireService.findByPrestation(id);
+  }
 
   @Get('query-ville/:id')
   findPrestataireParVille(@Query() query: PrestataireQuery, @Param('id') id: string) {
