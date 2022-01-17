@@ -24,6 +24,6 @@ export class DashboardService {
 
   async recupererTotalPrestation(){
     const prestations = await this.prismaService.prestation.count();
-    return { totalPrestation: prestations };
+    return { totalPrestations: prestations };
   }
 }
