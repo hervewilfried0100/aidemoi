@@ -21,4 +21,9 @@ export class DashboardService {
     const prestataire = await this.prismaService.prestataire.count({ where: { aPayer: false } });
     return new TotalPrestatairesVM({ nombrePrestataires: prestataire });
   }
+
+  async recupererTotalPrestation(){
+    const prestations = await this.prismaService.prestation.count();
+    return { totalPrestation: prestations };
+  }
 }
