@@ -9,6 +9,7 @@ import { AppController } from './app.controller';
 import { CommuneModule } from './commune/commune.module';
 import { UsersModule } from './users/users.module';
 import { MulterModule } from '@nestjs/platform-express';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { MulterModule } from '@nestjs/platform-express';
     UsersModule,
     MulterModule.register({
       dest: './files'
-    })
+    }),
+    DashboardModule
   ],
   controllers: [AppController],
   providers: [AppService],
