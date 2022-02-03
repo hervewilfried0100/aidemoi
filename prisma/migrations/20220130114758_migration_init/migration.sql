@@ -31,6 +31,7 @@ CREATE TABLE "Quartier" (
 CREATE TABLE "Prestation" (
     "id" TEXT NOT NULL,
     "label" TEXT NOT NULL,
+    "imageUrl" TEXT NOT NULL,
 
     CONSTRAINT "Prestation_pkey" PRIMARY KEY ("id")
 );

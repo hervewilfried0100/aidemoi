@@ -4,6 +4,9 @@ import { PrestataireEntity } from '../../prestataire/entities/prestataire.entity
 
 export class PrestationEntity implements Prestation{
     @ApiProperty()
+    imageUrl: string;
+
+    @ApiProperty()
     id: string;
 
     @ApiProperty()

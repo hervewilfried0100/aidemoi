@@ -1,15 +1,37 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, Res } from '@nestjs/common';
 import { PrestationService } from './prestation.service';
 import { UpdatePrestationDto } from './dto/update-prestation.dto';
 import { CreatePrestationDto } from './dto/create-prestation.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { editFileName, imageFileFilter } from 'src/utils/upload';
 
 @Controller('api/v1/prestation')
 export class PrestationController {
   constructor(private readonly prestationService: PrestationService) {}
 
   @Post()
-  async create(@Body() createPrestationDto:CreatePrestationDto) {
-    return this.prestationService.create(createPrestationDto);
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: diskStorage({
+        destination: './files',
+        filename: editFileName
+      }),
+      fileFilter: imageFileFilter
+    })
+  )
+  async create(@UploadedFile() file, @Body() createPrestationDto:CreatePrestationDto) {
+    return this.prestationService.create(createPrestationDto, file);
+  }
+
+  /**
+   * Get image upload
+   * @param image
+   * @param res
+   */
+  @Get('uploaded/:imgpath')
+  seeUploadedFile(@Param('imgpath') image, @Res() res) {
+    return res.sendFile(image, { root: './files' });
   }
 
   @Get()

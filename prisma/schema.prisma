@@ -37,6 +37,7 @@ model Quartier {
 model Prestation {
   id           String        @id @default(cuid())
   label        String
+  imageUrl     String?
   prestataires Prestataire[]
 }
 

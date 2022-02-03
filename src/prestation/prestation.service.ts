@@ -6,16 +6,24 @@ import { PrestationEssentielDto } from './dto/prestation-essentiel.dto';
 
 @Injectable()
 export class PrestationService {
-  constructor(private prismaService: PrismaService) {
-  }
-  create(createPrestationDto: CreatePrestationDto) {
-    return this.prismaService.prestation
+  constructor(private prismaService: PrismaService) {}
+
+  async create(createPrestationDto: CreatePrestationDto, file: any) {
+    const prestation = await this.prismaService.prestation
       .create({
-        data: createPrestationDto,
+        data: {
+          ...createPrestationDto,
+          imageUrl: file.filename
+        },
         include: {
           prestataires: true
         }
       });
+
+    return new CreatePrestationDto({
+      label: prestation.label,
+      imageUrl: file.filename,
+    });
   }
 
   async findAll() {
@@ -33,6 +41,7 @@ export class PrestationService {
       return new PrestationEssentielDto({
         id: prestation.id,
         label: prestation.label,
+        imageUrl: prestation.imageUrl,
         totalPrestation: prestation._count.prestataires
       })
     });
