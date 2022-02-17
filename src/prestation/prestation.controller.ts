@@ -25,7 +25,7 @@ export class PrestationController {
   }
 
   /**
-   * Get image upload
+   * Get image upload data
    * @param image
    * @param res
    */
