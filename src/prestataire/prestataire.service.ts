@@ -215,64 +215,74 @@ export class PrestataireService {
   }
 
   async findByPrestation(id: string) {
-    const prestataires = await this.prisma.prestataire.findMany({
-      where: {
-        prestation: {
-          id: id
+    try {
+      const prestataires = await this.prisma.prestataire.findMany({
+        where: {
+          prestation: {
+            id: id
+          },
         },
-      },
-      include: {
-        ville: true,
-        commune: true,
-        prestation: true,
-        quartier: true
-      }
-    });
+        include: {
+          ville: true,
+          commune: true,
+          prestation: true,
+          quartier: true
+        }
+      });
 
-    const cleanPrestataire = prestataires.map((prestataire) => new PrestataireDetailsVM({
-      id: prestataire.id,
-      nom: prestataire.nom,
-      prenoms: prestataire.prenoms,
-      genre: prestataire.genre,
-      telephone: prestataire.telephone,
-      ville: prestataire.ville.label,
-      commune: prestataire.commune.label,
-      quartier: prestataire.quartier.label,
-      adresse: prestataire.adresse,
-      aPayer: prestataire.aPayer,
-      prestation: prestataire.prestation.label,
-      dateCreation: prestataire.dateCreation
-    }));
-    return cleanPrestataire;
+      const cleanPrestataire = prestataires.map((prestataire) => new PrestataireDetailsVM({
+        id: prestataire.id,
+        nom: prestataire.nom,
+        prenoms: prestataire.prenoms,
+        genre: prestataire.genre,
+        telephone: prestataire.telephone,
+        ville: prestataire.ville.label,
+        commune: prestataire.commune.label,
+        quartier: prestataire.quartier.label,
+        adresse: prestataire.adresse,
+        aPayer: prestataire.aPayer,
+        prestation: prestataire.prestation.label,
+        dateCreation: prestataire.dateCreation
+      }));
+      return cleanPrestataire;
+    }
+    catch(e) {
+      throw new HttpException('NO_FOUND', HttpStatus.NOT_FOUND);
+    }
   }
-  async findByPrestataireByPhone(telephone: string) {
-    const prestataire = await this.prisma.prestataire.findUnique({
-      where: {
-        telephone: telephone,
-      },
-      include: {
-        ville: true,
-        commune: true,
-        prestation: true,
-        quartier: true
-      }
-    });
 
-    const cleanPrestataire =  new PrestataireDetailsVM({
-      id: prestataire.id,
-      nom: prestataire.nom,
-      prenoms: prestataire.prenoms,
-      genre: prestataire.genre,
-      telephone: prestataire.telephone,
-      ville: prestataire.ville.label,
-      commune: prestataire.commune.label,
-      quartier: prestataire.quartier.label,
-      adresse: prestataire.adresse,
-      aPayer: prestataire.aPayer,
-      prestation: prestataire.prestation.label,
-      dateCreation: prestataire.dateCreation
-    });
-    return cleanPrestataire;
+  async findByPrestataireByPhone(telephone: string) {
+    try{
+      const prestataire = await this.prisma.prestataire.findUnique({
+        where: {
+          telephone: telephone,
+        },
+        include: {
+          ville: true,
+          commune: true,
+          prestation: true,
+          quartier: true
+        }
+      });
+
+      const cleanPrestataire =  new PrestataireDetailsVM({
+        id: prestataire.id,
+        nom: prestataire.nom,
+        prenoms: prestataire.prenoms,
+        genre: prestataire.genre,
+        telephone: prestataire.telephone,
+        ville: prestataire.ville.label,
+        commune: prestataire.commune.label,
+        quartier: prestataire.quartier.label,
+        adresse: prestataire.adresse,
+        aPayer: prestataire.aPayer,
+        prestation: prestataire.prestation.label,
+        dateCreation: prestataire.dateCreation
+      });
+      return cleanPrestataire;
+    } catch(e) {
+      throw new HttpException('NO_FOUND', HttpStatus.NOT_FOUND);
+    }
   }
 
   effectuerPaiement(id: string){
