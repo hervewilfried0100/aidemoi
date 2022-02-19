@@ -246,7 +246,7 @@ export class PrestataireService {
     return cleanPrestataire;
   }
   async findByPrestataireByPhone(telephone: string) {
-    const prestataires = await this.prisma.prestataire.findMany({
+    const prestataire = await this.prisma.prestataire.findUnique({
       where: {
         telephone: telephone,
       },
@@ -258,7 +258,7 @@ export class PrestataireService {
       }
     });
 
-    const cleanPrestataire = prestataires.map((prestataire) => new PrestataireDetailsVM({
+    const cleanPrestataire =  new PrestataireDetailsVM({
       id: prestataire.id,
       nom: prestataire.nom,
       prenoms: prestataire.prenoms,
@@ -271,7 +271,7 @@ export class PrestataireService {
       aPayer: prestataire.aPayer,
       prestation: prestataire.prestation.label,
       dateCreation: prestataire.dateCreation
-    }));
+    });
     return cleanPrestataire;
   }
 
