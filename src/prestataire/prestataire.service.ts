@@ -245,7 +245,7 @@ export class PrestataireService {
     }));
     return cleanPrestataire;
   }
-  async findByPrestationByPhone(telephone: string) {
+  async findByPrestataireByPhone(telephone: string) {
     const prestataires = await this.prisma.prestataire.findMany({
       where: {
         telephone: telephone,
