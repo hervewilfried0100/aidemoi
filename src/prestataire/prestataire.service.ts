@@ -245,6 +245,35 @@ export class PrestataireService {
     }));
     return cleanPrestataire;
   }
+  async findByPrestationByPhone(telephone: string) {
+    const prestataires = await this.prisma.prestataire.findMany({
+      where: {
+        telephone: telephone,
+      },
+      include: {
+        ville: true,
+        commune: true,
+        prestation: true,
+        quartier: true
+      }
+    });
+
+    const cleanPrestataire = prestataires.map((prestataire) => new PrestataireDetailsVM({
+      id: prestataire.id,
+      nom: prestataire.nom,
+      prenoms: prestataire.prenoms,
+      genre: prestataire.genre,
+      telephone: prestataire.telephone,
+      ville: prestataire.ville.label,
+      commune: prestataire.commune.label,
+      quartier: prestataire.quartier.label,
+      adresse: prestataire.adresse,
+      aPayer: prestataire.aPayer,
+      prestation: prestataire.prestation.label,
+      dateCreation: prestataire.dateCreation
+    }));
+    return cleanPrestataire;
+  }
 
   effectuerPaiement(id: string){
     try{

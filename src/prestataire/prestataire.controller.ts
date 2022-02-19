@@ -28,6 +28,11 @@ export class PrestataireController {
     return this.prestataireService.findByPrestation(id);
   }
 
+  @Get('get-prestation-by-phone/:phone')
+  findPrestataireParPhone(@Param('phone') phone: string) {
+    return this.prestataireService.findByPrestation(phone);
+  }
+
   @Get('query-ville/:id')
   findPrestataireParVille(@Query() query: PrestataireQuery, @Param('id') id: string) {
     const villeId = query.villeId;
