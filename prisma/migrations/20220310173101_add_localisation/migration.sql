@@ -31,9 +31,18 @@ CREATE TABLE "Quartier" (
 CREATE TABLE "Prestation" (
     "id" TEXT NOT NULL,
     "label" TEXT NOT NULL,
-    "imageUrl" TEXT NOT NULL,
+    "imageUrl" TEXT,
 
     CONSTRAINT "Prestation_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "LatLng" (
+    "id" TEXT NOT NULL,
+    "latitude" INTEGER NOT NULL,
+    "longitude" INTEGER NOT NULL,
+
+    CONSTRAINT "LatLng_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -50,6 +59,7 @@ CREATE TABLE "Prestataire" (
     "aPayer" BOOLEAN DEFAULT false,
     "prestationId" TEXT,
     "dateCreation" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "localisationId" TEXT,
 
     CONSTRAINT "Prestataire_pkey" PRIMARY KEY ("id")
 );
@@ -90,6 +100,9 @@ ALTER TABLE "Prestataire" ADD CONSTRAINT "Prestataire_quartierId_fkey" FOREIGN K
 
 -- AddForeignKey
 ALTER TABLE "Prestataire" ADD CONSTRAINT "Prestataire_prestationId_fkey" FOREIGN KEY ("prestationId") REFERENCES "Prestation"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Prestataire" ADD CONSTRAINT "Prestataire_localisationId_fkey" FOREIGN KEY ("localisationId") REFERENCES "LatLng"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "User" ADD CONSTRAINT "User_prestataireId_fkey" FOREIGN KEY ("prestataireId") REFERENCES "Prestataire"("id") ON DELETE SET NULL ON UPDATE CASCADE;

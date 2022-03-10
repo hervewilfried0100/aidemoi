@@ -1,3 +1,5 @@
+import { LatLngEntity } from '../entities/localisation.entity';
+
 export class PrestataireDetailsVM {
   id: string;
   nom: string;
@@ -11,6 +13,7 @@ export class PrestataireDetailsVM {
   aPayer: boolean;
   prestation: string;
   dateCreation: Date;
+  localisation: LatLngEntity;
 
   constructor(data?: PrestataireDetailsVM) {
     this.id = (data && data.id) ? data?.id : null;
@@ -25,6 +28,7 @@ export class PrestataireDetailsVM {
     this.aPayer = (data && data.aPayer) ? data.aPayer : false;
     this.prestation = (data && data.prestation) ? data?.prestation : null ;
     this.dateCreation = (data && data.dateCreation) ? data.dateCreation : null;
+    this.localisation = (data && data.localisation) ? data.localisation: null;
   }
 }
 
@@ -34,6 +38,7 @@ export class PrestataireEssentielVM{
   prenoms: string;
   genre: GenreEnums;
   telephone: string;
+  localisation: LatLngEntity;
 
   constructor(data?: PrestataireEssentielVM) {
     this.id = (data && data.id) ? data.id : null;
@@ -41,6 +46,7 @@ export class PrestataireEssentielVM{
     this.prenoms = (data && data.prenoms) ? data.prenoms : null;
     this.genre = (data && data.genre) ? data.genre : null;
     this.telephone = (data && data.telephone) ? data.telephone : null;
+    this.localisation = (data && data.localisation) ? data.localisation : null;
   }
 }
 

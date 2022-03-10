@@ -68,7 +68,8 @@ export class UsersService {
             ville: true,
             commune: true,
             quartier: true,
-            prestation: true
+            prestation: true,
+            localisation: true
           }
         }
       }
@@ -96,7 +97,8 @@ export class UsersService {
       commune: userLogin.prestataire.commune.label,
       quartier: userLogin.prestataire.quartier.label,
       prestation: userLogin.prestataire.prestation.label,
-      dateCreation: userLogin.prestataire.dateCreation
+      dateCreation: userLogin.prestataire.dateCreation,
+      localisation: userLogin.prestataire.localisation
     });
     return prestataire;
   }

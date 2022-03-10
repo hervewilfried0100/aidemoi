@@ -3,6 +3,7 @@ import { Prestataire } from "@prisma/client";
 import { CommuneEntity } from "src/commune/entities/commune.entity";
 import { PrestationEntity } from "src/prestation/entities/prestation.entity";
 import { VilleEntity } from "src/ville/entities/ville.entity";
+import { LatLngEntity } from './localisation.entity';
 
 export class PrestataireEntity implements Prestataire{
 
@@ -53,6 +54,12 @@ export class PrestataireEntity implements Prestataire{
 
   @ApiProperty()
   prestationId: string;
+
+  @ApiProperty()
+  localisation: LatLngEntity;
+
+  @ApiProperty()
+  localisationId: string;
 }
 
 export enum GenreEnums {

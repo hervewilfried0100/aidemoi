@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, MaxLength, MinLength } from "class-validator";
+import { LatLngEntity } from '../entities/localisation.entity';
 import { GenreEnums } from '../entities/prestataire.entity';
+import { CreateLocalisationDto } from './create-localisation.dto';
 
 export class CreatePrestataireDto {
   @IsNotEmpty()
@@ -48,4 +50,7 @@ export class CreatePrestataireDto {
 
   @ApiProperty()
   dateCreation?: Date;
+
+  @ApiProperty()
+  localisation?: CreateLocalisationDto;
 }

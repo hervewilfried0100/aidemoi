@@ -41,24 +41,33 @@ model Prestation {
   prestataires Prestataire[]
 }
 
+model LatLng {
+  id          String        @id @default(cuid())
+  latitude    Float
+  longitude   Float
+  prestataire Prestataire[]
+}
+
 model Prestataire {
-  id           String      @id @default(cuid())
-  nom          String
-  prenoms      String
-  genre        Genre       @default(MASCULIN)
-  telephone    String      @unique
-  ville        Ville?      @relation(fields: [villeId], references: [id])
-  villeId      String?
-  commune      Commune?    @relation(fields: [communeId], references: [id])
-  communeId    String?
-  quartier     Quartier    @relation(fields: [quartierId], references: [id])
-  quartierId   String
-  adresse      String?
-  aPayer       Boolean?    @default(false)
-  prestation   Prestation? @relation(fields: [prestationId], references: [id])
-  prestationId String?
-  dateCreation DateTime    @default(now())
-  utilisateur  User?
+  id             String      @id @default(cuid())
+  nom            String
+  prenoms        String
+  genre          Genre       @default(MASCULIN)
+  telephone      String      @unique
+  ville          Ville?      @relation(fields: [villeId], references: [id])
+  villeId        String?
+  commune        Commune?    @relation(fields: [communeId], references: [id])
+  communeId      String?
+  quartier       Quartier    @relation(fields: [quartierId], references: [id])
+  quartierId     String
+  adresse        String?
+  aPayer         Boolean?    @default(false)
+  prestation     Prestation? @relation(fields: [prestationId], references: [id])
+  prestationId   String?
+  dateCreation   DateTime    @default(now())
+  utilisateur    User?
+  localisation   LatLng?     @relation(fields: [localisationId], references: [id])
+  localisationId String?
 }
 
 model User {

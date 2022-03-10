@@ -42,11 +42,12 @@ export class PrestataireService {
                   id: createPrestataireDto.prestation
                 }
               },
-              // utilisateur: {
-              //   connect: {
-              //     id: createPrestataireDto.utilisateur
-              //   }
-              // }
+              localisation: {
+                create: {
+                  latitude: createPrestataireDto.localisation.latitude,
+                  longitude: createPrestataireDto.localisation.longitude
+                }
+              }
             }
     });
 
@@ -60,11 +61,12 @@ export class PrestataireService {
           ville: true,
           commune: true,
           prestation: true,
-          quartier: true
+          quartier: true,
+          localisation: true
         }
       });
 
-      const cleanPrestataire = prestataires.map((prestataire) => new PrestataireDetailsVM({
+      return prestataires.map((prestataire) => new PrestataireDetailsVM({
         id: prestataire.id,
         nom: prestataire.nom,
         prenoms: prestataire.prenoms,
@@ -76,9 +78,9 @@ export class PrestataireService {
         adresse: prestataire.adresse,
         aPayer: prestataire.aPayer,
         prestation: prestataire.prestation.label,
-        dateCreation: prestataire.dateCreation
+        dateCreation: prestataire.dateCreation,
+        localisation: prestataire.localisation
       }));
-      return cleanPrestataire;
     } catch (e) {
       throw new HttpException('LOAD_DATA_ERROR', HttpStatus.FORBIDDEN);
     }
@@ -99,10 +101,11 @@ export class PrestataireService {
           ville: true,
           commune: true,
           prestation: true,
-          quartier: true
+          quartier: true,
+          localisation: true
         }
       });
-      const cleanPrestataire = prestataires.map((prestataire) => new PrestataireDetailsVM({
+      return prestataires.map((prestataire) => new PrestataireDetailsVM({
         id: prestataire.id,
         nom: prestataire.nom,
         prenoms: prestataire.prenoms,
@@ -114,9 +117,9 @@ export class PrestataireService {
         adresse: prestataire.adresse,
         aPayer: prestataire.aPayer,
         prestation: prestataire.prestation.label,
-        dateCreation: prestataire.dateCreation
+        dateCreation: prestataire.dateCreation,
+        localisation: prestataire.localisation
       }));
-      return cleanPrestataire;
     } catch(e) {
       throw new HttpException('LOAD_DATA_ERROR', HttpStatus.FORBIDDEN);
     }
@@ -137,10 +140,11 @@ export class PrestataireService {
           ville: true,
           commune: true,
           prestation: true,
-          quartier: true
+          quartier: true,
+          localisation: true
         }
       });
-      const cleanPrestataire = prestataires.map((prestataire) => new PrestataireDetailsVM({
+      return prestataires.map((prestataire) => new PrestataireDetailsVM({
         id: prestataire.id,
         nom: prestataire.nom,
         prenoms: prestataire.prenoms,
@@ -152,9 +156,9 @@ export class PrestataireService {
         adresse: prestataire.adresse,
         aPayer: prestataire.aPayer,
         prestation: prestataire.prestation.label,
-        dateCreation: prestataire.dateCreation
+        dateCreation: prestataire.dateCreation,
+        localisation: prestataire.localisation
       }));
-      return cleanPrestataire;
     } catch(e) {
       throw new HttpException('LOAD_DATA_ERROR', HttpStatus.FORBIDDEN);
     }
@@ -175,10 +179,11 @@ export class PrestataireService {
           ville: true,
           commune: true,
           prestation: true,
-          quartier: true
+          quartier: true,
+          localisation: true
         }
       });
-      const cleanPrestataire = prestataires.map((prestataire) => new PrestataireDetailsVM({
+      return prestataires.map((prestataire) => new PrestataireDetailsVM({
         id: prestataire.id,
         nom: prestataire.nom,
         prenoms: prestataire.prenoms,
@@ -190,9 +195,9 @@ export class PrestataireService {
         adresse: prestataire.adresse,
         aPayer: prestataire.aPayer,
         prestation: prestataire.prestation.label,
-        dateCreation: prestataire.dateCreation
+        dateCreation: prestataire.dateCreation,
+        localisation: prestataire.localisation
       }));
-      return cleanPrestataire;
     } catch(e) {
       throw new HttpException('LOAD_DATA_ERROR', HttpStatus.FORBIDDEN);
     }
@@ -226,11 +231,12 @@ export class PrestataireService {
           ville: true,
           commune: true,
           prestation: true,
-          quartier: true
+          quartier: true,
+          localisation: true
         }
       });
 
-      const cleanPrestataire = prestataires.map((prestataire) => new PrestataireDetailsVM({
+      return prestataires.map((prestataire) => new PrestataireDetailsVM({
         id: prestataire.id,
         nom: prestataire.nom,
         prenoms: prestataire.prenoms,
@@ -242,9 +248,9 @@ export class PrestataireService {
         adresse: prestataire.adresse,
         aPayer: prestataire.aPayer,
         prestation: prestataire.prestation.label,
-        dateCreation: prestataire.dateCreation
+        dateCreation: prestataire.dateCreation,
+        localisation: prestataire.localisation
       }));
-      return cleanPrestataire;
     }
     catch(e) {
       throw new HttpException('NO_FOUND', HttpStatus.NOT_FOUND);
@@ -261,11 +267,12 @@ export class PrestataireService {
           ville: true,
           commune: true,
           prestation: true,
-          quartier: true
+          quartier: true,
+          localisation: true
         }
       });
 
-      const cleanPrestataire =  new PrestataireDetailsVM({
+      return new PrestataireDetailsVM({
         id: prestataire.id,
         nom: prestataire.nom,
         prenoms: prestataire.prenoms,
@@ -277,9 +284,9 @@ export class PrestataireService {
         adresse: prestataire.adresse,
         aPayer: prestataire.aPayer,
         prestation: prestataire.prestation.label,
-        dateCreation: prestataire.dateCreation
+        dateCreation: prestataire.dateCreation,
+        localisation: prestataire.localisation
       });
-      return cleanPrestataire;
     } catch(e) {
       throw new HttpException('NO_FOUND', HttpStatus.NOT_FOUND);
     }
@@ -323,6 +330,12 @@ export class PrestataireService {
             id: updatePrestataireDto.prestation
           }
         },
+        localisation: {
+          create: {
+            latitude: updatePrestataireDto.localisation.latitude,
+            longitude: updatePrestataireDto.localisation.longitude
+          }
+        }
         // utilisateur: {
         //   connect: {
         //     id: updatePrestataireDto.utilisateur
