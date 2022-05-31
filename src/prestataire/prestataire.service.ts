@@ -44,8 +44,8 @@ export class PrestataireService {
               },
               localisation: {
                 create: {
-                  latitude: createPrestataireDto.localisation.latitude,
-                  longitude: createPrestataireDto.localisation.longitude
+                  latitude: createPrestataireDto.localisation ? createPrestataireDto.localisation.latitude : 0,
+                  longitude: createPrestataireDto.localisation ? createPrestataireDto.localisation.longitude : 0
                 }
               }
             }

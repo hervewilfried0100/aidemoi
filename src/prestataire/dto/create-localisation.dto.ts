@@ -1,4 +1,4 @@
 export class CreateLocalisationDto {
-  latitude: number;
-  longitude: number
+  latitude?: number;
+  longitude?: number
 }
